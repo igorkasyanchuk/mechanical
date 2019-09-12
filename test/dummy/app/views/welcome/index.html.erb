@@ -1,0 +1,70 @@
+<h1>Welcome#index</h1>
+
+<h2>Users</h2>
+
+<%= simple_form_for @user, url: submit_url, html: { novalidate: true } do |f| %>
+  <%= f.error_messages %>
+  <%# binding.pry %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.submit %>
+<% end %>
+
+<% if @users.any? %>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <table>
+    <tr>
+      <th>ID</td>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% end %>
+
+<br/>
+<br/>
+<br/>
+
+<h2>Posts</h2>
+
+<%= simple_form_for @post, url: submit_url, html: { novalidate: true } do |f| %>
+  <%= f.error_messages %>
+  <%# binding.pry %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.submit %>
+<% end %>
+
+<% if @posts.any? %>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <table>
+    <tr>
+      <th>ID</td>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.id %></td>
+        <td><%= post.first_name %></td>
+        <td><%= post.last_name %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% end %>
+
