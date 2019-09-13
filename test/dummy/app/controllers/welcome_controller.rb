@@ -1,20 +1,34 @@
 class WelcomeController < ApplicationController
   def index
     @user = Mechanical['User'].form.new
-    @users = Mechanical['User'].model.all
-
     @post = Mechanical['Post'].form.new
-    @posts = Mechanical['Post'].model.all
+    load_all
   end
 
-  def submit
+  def submit_user
     @user = Mechanical['User'].form.new(params.require(:user).permit!)
-    if @user.valid?
-      @user.create
+    if @user.save
       redirect_to root_path
     else
-      @users = Mechanical['User'].model.all
+      @post = Mechanical['Post'].form.new
+      load_all
       render :index
     end
+  end
+
+  def submit_post
+    @post = Mechanical['Post'].form.new(params.require(:post).permit!)
+    if @post.save
+      redirect_to root_path
+    else
+      @user = Mechanical['User'].form.new
+      load_all
+      render :index
+    end
+  end
+
+  def load_all
+    @posts = Mechanical['Post'].model.all
+    @users = Mechanical['User'].model.all
   end
 end

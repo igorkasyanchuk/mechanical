@@ -2,11 +2,12 @@
 
 <h2>Users</h2>
 
-<%= simple_form_for @user, url: submit_url, html: { novalidate: true } do |f| %>
+<%= simple_form_for @user, url: submit_user_url, html: { novalidate: true } do |f| %>
   <%= f.error_messages %>
   <%# binding.pry %>
   <%= f.input :first_name %>
   <%= f.input :last_name %>
+  <%= f.input :age %>
   <%= f.submit %>
 <% end %>
 
@@ -20,12 +21,14 @@
       <th>ID</td>
       <th>First Name</th>
       <th>Last Name</th>
+      <th>Age</th>
     </tr>
     <% @users.each do |user| %>
       <tr>
         <td><%= user.id %></td>
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
+        <td><%= user.age ? user.age + 88 : nil %></td>
       </tr>
     <% end %>
   </table>
@@ -38,11 +41,11 @@
 
 <h2>Posts</h2>
 
-<%= simple_form_for @post, url: submit_url, html: { novalidate: true } do |f| %>
+<%= simple_form_for @post, url: submit_post_url, html: { novalidate: true } do |f| %>
   <%= f.error_messages %>
   <%# binding.pry %>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
+  <%= f.input :title %>
+  <%= f.input :published_on %>
   <%= f.submit %>
 <% end %>
 
@@ -54,14 +57,14 @@
   <table>
     <tr>
       <th>ID</td>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Title</th>
+      <th>Published</th>
     </tr>
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.id %></td>
-        <td><%= post.first_name %></td>
-        <td><%= post.last_name %></td>
+        <td><%= post.title %></td>
+        <td><%= post.published_on %></td>
       </tr>
     <% end %>
   </table>

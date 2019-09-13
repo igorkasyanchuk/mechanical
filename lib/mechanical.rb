@@ -24,10 +24,25 @@ module Mechanical
   end
 
   class Field
-    attr_reader :name, :options
-    def initialize(name, *options)
+    attr_reader :name, :options, :model
+    def initialize(model, name, options = {})
+      @model   = model
       @name    = name
       @options = options
+      inject
+    end
+
+    def inject
+      model.form.send :attribute, name.to_sym, type: field_type
+      model.model.class_eval %{
+        def #{name}
+          self.data["#{name}"]
+        end
+      }
+    end
+
+    def field_type
+      options[:type].presence || String
     end
   end
 
@@ -37,7 +52,7 @@ module Mechanical
   class Model
     attr_reader :fields, :name, :options, :model, :form
 
-    def initialize(name)
+    def initialize(name, options = {})
       @name    = name
       @fields  = {}
       @options = options
@@ -51,39 +66,35 @@ module Mechanical
         end
         self.table_name         = "mechanical_mechanical_stores"
         self.inheritance_column = nil
-
-        delegate_missing_to :__storage
-
-        def __storage
-          @__storage ||= OpenStruct.new(data)
-        end
       end
 
-      @form = Class.new(DummyKlass) do
+      @form = Class.new do
         extend ActiveModel::Naming
         include ActiveAttr::TypecastedAttributes
         include ActiveAttr::BasicModel
         include ActiveAttr::Model
 
-        @@this = this
-        @@model = @model
+        class << self; attr_accessor :__name, :__model end
+        @__name, @__model = name, this.model
 
         def self.model_name
-          ActiveModel::Name.new(self, nil, @@this.name.downcase)
+          ActiveModel::Name.new(self, nil, __name)
         end
 
-        attribute :first_name, :type => String
-        attribute :last_name, :type => String
-        validates :first_name, presence: true
+        # validates :first_name, presence: true
 
-        def create
-          @@this.model.create(data: attributes)
+        def save
+          if valid?
+            self.class.__model.create(data: attributes)
+          else
+            false
+          end
         end
       end
     end
     
-    def field(name, *options, &block)
-      @fields[name] = Field.new(name, options)
+    def field(name, options = {}, &block)
+      @fields[name] = Field.new(self, name, options)
     end
   end
 
