@@ -3,6 +3,8 @@ require 'activemodel-form'
 require 'simple_form'
 require 'active_attr'
 require 'ostruct'
+require 'active_model_attributes'
+require 'store_model'
 
 module Mechanical
   class Schema
@@ -33,12 +35,17 @@ module Mechanical
     end
 
     def inject
-      model.form.send :attribute, name.to_sym, type: field_type
+      model.form.send :attribute, name.to_sym, field_type
       model.model.class_eval %{
         def #{name}
+          return nil unless data
           self.data["#{name}"]
         end
       }
+    end
+
+    def validates(options = {})
+      model.form.send :validates, name.to_sym, options
     end
 
     def field_type
@@ -70,9 +77,10 @@ module Mechanical
 
       @form = Class.new do
         extend ActiveModel::Naming
-        include ActiveAttr::TypecastedAttributes
-        include ActiveAttr::BasicModel
-        include ActiveAttr::Model
+       # include ActiveModel::Model
+      #  include ActiveModel::Serialization
+       # include ActiveModelAttributes
+        include StoreModel::Model
 
         class << self; attr_accessor :__name, :__model end
         @__name, @__model = name, this.model
@@ -90,11 +98,16 @@ module Mechanical
             false
           end
         end
+
       end
     end
     
     def field(name, options = {}, &block)
       @fields[name] = Field.new(self, name, options)
+    end
+
+    def validates(name, options = {}, &block)
+      @fields[name].validates(options)
     end
   end
 

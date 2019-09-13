@@ -3,6 +3,7 @@ PATH
   specs:
     mechanical (0.1.0)
       active_attr
+      active_model_attributes
       activemodel-form
       dry-schema
       dry-struct
@@ -10,6 +11,7 @@ PATH
       dry-validation
       rails (>= 4.2.0)
       simple_form
+      store_model
 
 GEM
   remote: https://rubygems.org/
@@ -54,6 +56,9 @@ GEM
       actionpack (>= 3.0.2, < 6.1)
       activemodel (>= 3.0.2, < 6.1)
       activesupport (>= 3.0.2, < 6.1)
+    active_model_attributes (1.5.0)
+      activemodel (>= 5.0)
+      activesupport (>= 5.0)
     activejob (6.0.0)
       activesupport (= 6.0.0)
       globalid (>= 0.3.6)
@@ -197,6 +202,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    store_model (0.5.3)
+      rails (>= 5.2)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)

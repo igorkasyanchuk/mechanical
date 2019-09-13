@@ -24,6 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-validation"
   spec.add_dependency "activemodel-form"
   spec.add_dependency "active_attr"
+  spec.add_dependency 'active_model_attributes'
+  spec.add_dependency "store_model"
 
   spec.add_development_dependency "pg"
   spec.add_development_dependency "pry"

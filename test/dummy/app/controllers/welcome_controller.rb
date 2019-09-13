@@ -2,6 +2,10 @@ class WelcomeController < ApplicationController
   def index
     @user = Mechanical['User'].form.new
     @post = Mechanical['Post'].form.new
+
+    @user.age = 77
+    @post.published_on = Date.current
+
     load_all
   end
 

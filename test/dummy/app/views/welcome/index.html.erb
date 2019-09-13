@@ -28,7 +28,7 @@
         <td><%= user.id %></td>
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
-        <td><%= user.age ? user.age + 88 : nil %></td>
+        <td><%= user.age %></td>
       </tr>
     <% end %>
   </table>
@@ -41,11 +41,13 @@
 
 <h2>Posts</h2>
 
+<%# binding.pry %>
+
 <%= simple_form_for @post, url: submit_post_url, html: { novalidate: true } do |f| %>
   <%= f.error_messages %>
   <%# binding.pry %>
   <%= f.input :title %>
-  <%= f.input :published_on %>
+  <%= f.input :published_on, as: :string %>
   <%= f.submit %>
 <% end %>
 
