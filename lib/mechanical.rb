@@ -1,10 +1,7 @@
 require "mechanical/engine"
-require 'activemodel-form'
 require 'simple_form'
-require 'active_attr'
 require 'ostruct'
-require 'active_model_attributes'
-require 'store_model'
+require 'jsonb_accessor'
 
 module Mechanical
   class Schema
@@ -31,95 +28,77 @@ module Mechanical
       @model   = model
       @name    = name
       @options = options
-      inject
-    end
+      model.model.jsonb_accessor :__data, name.to_sym => options[:type].presence || String
 
-    def inject
-      model.form.send :attribute, name.to_sym, field_type
-      model.model.class_eval %{
-        def #{name}
-          return nil unless data
-          self.data["#{name}"]
-        end
-      }
+      # model.model.send :has_one_attached, :file
     end
 
     def validates(options = {})
-      model.form.send :validates, name.to_sym, options
+      model.model.send :validates, name.to_sym, options
     end
 
-    def field_type
-      options[:type].presence || String
-    end
-  end
-
-  class DummyKlass
   end
 
   class Model
-    attr_reader :fields, :name, :options, :model, :form
+    attr_reader :fields, :name, :options, :model#, :form
+
+    delegate_missing_to :model
 
     def initialize(name, options = {})
       @name    = name
       @fields  = {}
       @options = options
-      this     = self
+      @model   = eval %{
+        class #{name} < ApplicationRecord
+          self.table_name = "mechanical_mechanical_stores"
+          def self.model_name; ActiveModel::Name.new(self, nil, "#{name.downcase}"); end
 
-      @model   = Class.new(ActiveRecord::Base) do
-        default_scope -> { where(type: name) }
-        belongs_to :user, optional: true
-        def self.model_name
-          ActiveModel::Name.new(self, nil, "mechanical_mechanical_stores")
+          default_scope -> { where(__model_type: name) }
+
+          belongs_to :user, optional: true
+          belongs_to :mechanicalable, polymorphic: true, optional: true
         end
-        self.table_name         = "mechanical_mechanical_stores"
-        self.inheritance_column = nil
-      end
+        #{name}
+      }
 
-      @form = Class.new do
-        extend ActiveModel::Naming
-       # include ActiveModel::Model
-      #  include ActiveModel::Serialization
-       # include ActiveModelAttributes
-        include StoreModel::Model
-
-        class << self; attr_accessor :__name, :__model end
-        @__name, @__model = name, this.model
-
-        def self.model_name
-          ActiveModel::Name.new(self, nil, __name)
-        end
-
-        # validates :first_name, presence: true
-
-        def save
-          if valid?
-            self.class.__model.create(data: attributes)
-          else
-            false
-          end
-        end
-
-      end
+      puts "Initiated => #{@model}"
     end
     
     def field(name, options = {}, &block)
       @fields[name] = Field.new(self, name, options)
     end
 
-    def validates(name, options = {}, &block)
-      @fields[name].validates(options)
+    def add_methods(&block)
+      @model.class_eval(&block)
     end
+
+    # def method_missing(name, *args, &block)
+    #  # @model.send name, *args, &block
+    # end
+
+    # def validates(name, options = {}, &block)
+    #   @fields[name].validates(options)
+    # end
   end
 
   mattr_accessor :schema
   @@schema = Schema.new
   
   def self.setup(&block)
+    setup_active_storage
     schema.instance_eval(&block)
   end
 
   def self.[](name)
     schema[name]
+  end
+
+  private
+
+  def self.setup_active_storage
+    ApplicationRecord.send :include, ActiveStorage::Reflection::ActiveRecordExtensions
+    ApplicationRecord.send :include, ActiveStorage::Attached::Model
+    ::ActiveRecord::Reflection.singleton_class.prepend(::ActiveStorage::Reflection::ReflectionExtension)
   end
 
 end

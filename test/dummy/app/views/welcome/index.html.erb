@@ -1,53 +1,12 @@
-<h1>Welcome#index</h1>
-
-<h2>Users</h2>
-
-<%= simple_form_for @user, url: submit_user_url, html: { novalidate: true } do |f| %>
-  <%= f.error_messages %>
-  <%# binding.pry %>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :age %>
-  <%= f.submit %>
-<% end %>
-
-<% if @users.any? %>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <table>
-    <tr>
-      <th>ID</td>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Age</th>
-    </tr>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= user.first_name %></td>
-        <td><%= user.last_name %></td>
-        <td><%= user.age %></td>
-      </tr>
-    <% end %>
-  </table>
-
-<% end %>
-
-<br/>
-<br/>
-<br/>
-
-<h2>Posts</h2>
-
-<%# binding.pry %>
+<h1>Home</h1>
 
 <%= simple_form_for @post, url: submit_post_url, html: { novalidate: true } do |f| %>
   <%= f.error_messages %>
-  <%# binding.pry %>
+  <%= f.association :account %>
   <%= f.input :title %>
-  <%= f.input :published_on, as: :string %>
+  <%= f.input :published_on %>
+  <%= f.input :file %>
+  <br/>
   <%= f.submit %>
 <% end %>
 
@@ -56,17 +15,24 @@
   <br/>
   <br/>
   <br/>
+  <h2>List of <%= Mechanical::Model::Post.total_posts %> post(s):</h2>
   <table>
     <tr>
       <th>ID</td>
+      <th>Account</th>
       <th>Title</th>
       <th>Published</th>
+      <th>User</th>
+      <th>Photo</th>
     </tr>
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.id %></td>
-        <td><%= post.title %></td>
+        <td><%= post.account&.name %></td>
+        <td><%= post.title_uppercase %></td>
         <td><%= post.published_on %></td>
+        <td><%= post.user&.full_name %></td>
+        <td><%= post.file.attached? ? image_tag(post.file.variant(resize_to_limit: [100, 100])) : nil %></td>
       </tr>
     <% end %>
   </table>

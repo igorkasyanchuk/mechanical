@@ -9,6 +9,10 @@
   </head>
 
   <body>
-    <%= yield %>
+   <%= link_to "Home", :root %>
+   |
+   <%= link_to "Users (#{User.count})", :users %>
+   <br/>
+   <%= yield %>
   </body>
 </html>

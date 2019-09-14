@@ -18,15 +18,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 4.2.0"
   spec.add_dependency "simple_form"
-  spec.add_dependency "dry-schema"
-  spec.add_dependency "dry-struct"
-  spec.add_dependency "dry-types"
-  spec.add_dependency "dry-validation"
-  spec.add_dependency "activemodel-form"
-  spec.add_dependency "active_attr"
-  spec.add_dependency 'active_model_attributes'
-  spec.add_dependency "store_model"
+  spec.add_dependency "jsonb_accessor"
 
   spec.add_development_dependency "pg"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency "image_processing"
+  spec.add_development_dependency "mini_magick"
 end
