@@ -29,8 +29,6 @@ module Mechanical
       @name    = name
       @options = options
       model.model.jsonb_accessor :__data, name.to_sym => options[:type].presence || String
-
-      # model.model.send :has_one_attached, :file
     end
 
     def validates(options = {})
@@ -40,7 +38,7 @@ module Mechanical
   end
 
   class Model
-    attr_reader :fields, :name, :options, :model#, :form
+    attr_reader :fields, :name, :options, :model
 
     delegate_missing_to :model
 
@@ -71,14 +69,6 @@ module Mechanical
     def add_methods(&block)
       @model.class_eval(&block)
     end
-
-    # def method_missing(name, *args, &block)
-    #  # @model.send name, *args, &block
-    # end
-
-    # def validates(name, options = {}, &block)
-    #   @fields[name].validates(options)
-    # end
   end
 
   mattr_accessor :schema
