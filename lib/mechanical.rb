@@ -24,11 +24,12 @@ module Mechanical
 
   class Field
     attr_reader :name, :options, :model
+
     def initialize(model, name, options = {})
       @model   = model
       @name    = name
       @options = options
-      model.model.jsonb_accessor :__data, name.to_sym => options[:type].presence || String
+      model.model.jsonb_accessor :____data, name.to_sym => [options[:type].presence || String, default: options[:default]]
     end
 
     def validates(options = {})
@@ -51,9 +52,9 @@ module Mechanical
           self.table_name = "mechanical_mechanical_stores"
           def self.model_name; ActiveModel::Name.new(self, nil, "#{name.downcase}"); end
 
-          default_scope -> { where(__model_type: name) }
+          default_scope -> { where(____model_type: name) }
 
-          belongs_to :user, optional: true
+          belongs_to :user, optional: true, foreign_key: :____user_id
           belongs_to :mechanicalable, polymorphic: true, optional: true
         end
         #{name}

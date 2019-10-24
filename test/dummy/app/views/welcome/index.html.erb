@@ -4,8 +4,10 @@
   <%= f.error_messages %>
   <%= f.association :account %>
   <%= f.input :title %>
+  <%= f.input :description %>
   <%= f.input :published_on %>
   <%= f.input :file %>
+  <%= f.input :active %>
   <br/>
   <%= f.submit %>
 <% end %>
@@ -21,21 +23,27 @@
       <th>ID</td>
       <th>Account</th>
       <th>Title</th>
+      <th>Description</th>
       <th>Published</th>
       <th>User</th>
       <th>Photo</th>
+      <th>Active</th>
     </tr>
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.id %></td>
         <td><%= post.account&.name %></td>
         <td><%= post.title_uppercase %></td>
+        <td><%= post.description %></td>
         <td><%= post.published_on %></td>
         <td><%= post.user&.full_name %></td>
         <td><%= post.file.attached? ? image_tag(post.file.variant(resize_to_limit: [100, 100])) : nil %></td>
+        <td><%= post.active %></td>
       </tr>
     <% end %>
   </table>
+  <p>Active: <%= Mechanical::Model::Post.active.count %></p>
+  <p>Active: <%= Mechanical::Model::Post.jsonb_where(:____data, { title: '1111' }).count %></p>
 
 <% end %>
 

@@ -1,6 +1,6 @@
 Mechanical.setup do |config|
 
-  model "Account" do |model|
+  model "Account" do
     field :name, type: :string
     field :balance, type: :integer
 
@@ -10,16 +10,20 @@ Mechanical.setup do |config|
     validates :balance, numericality: true
   end
 
-  model "Post" do |model|
+  model "Post" do
     field :title, type: :string
+    field :description, type: :text
     field :published_on, type: :date
     field :account_id, type: :integer
+    field :active, type: :boolean, default: true
 
     belongs_to :account, optional: true
 
     has_one_attached :file
 
     validates :title, presence: true
+
+    scope :active, -> { jsonb_where(:____data, active: true) }
 
     after_create :say_hello
 

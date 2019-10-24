@@ -37,16 +37,16 @@ ActiveRecord::Schema.define(version: 2019_09_14_112425) do
   end
 
   create_table "mechanical_mechanical_stores", force: :cascade do |t|
-    t.integer "user_id"
     t.integer "mechanicalable_id"
     t.string "mechanicalable_type"
-    t.string "__model_type"
-    t.jsonb "__data", default: {}
+    t.integer "____user_id"
+    t.string "____model_type"
+    t.jsonb "____data", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["__model_type"], name: "index_mechanical_mechanical_stores_on___model_type"
-    t.index ["mechanicalable_id", "mechanicalable_type"], name: "__mmidtype"
-    t.index ["user_id"], name: "index_mechanical_mechanical_stores_on_user_id"
+    t.index ["____model_type"], name: "index_mechanical_mechanical_stores_on_____model_type"
+    t.index ["____user_id"], name: "index_mechanical_mechanical_stores_on_____user_id"
+    t.index ["mechanicalable_id", "mechanicalable_type"], name: "____mmidtype"
   end
 
   create_table "users", force: :cascade do |t|
