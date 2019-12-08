@@ -6,12 +6,12 @@ The whole schema is defined in one initializer file, and new attributes could be
 
 ## Usage
 
-- add in Gemfile `gem "mechanical"`
-- bundle install
+- add in the Gemfile `gem "mechanical"`
+- execute `bundle install`
 - execute `rails g mechanical initializer`
 - execute `rake db:migrate`
 - edit `config/initializers/mechanical.rb` and define your schema
-- start app
+- start app `rails s`
 - you can use models `Mechanical::Model::MODEL_NAME` in you app like a regular model.
 
 You need to define attribute and it's type (it's importan to check this gem: https://github.com/madeintandem/jsonb_accessor).
