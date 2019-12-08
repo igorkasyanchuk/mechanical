@@ -43,7 +43,7 @@
     <% end %>
   </table>
   <p>Active: <%= Mechanical::Model::Post.active.count %></p>
-  <p>Active: <%= Mechanical::Model::Post.jsonb_where(:____data, { title: '1111' }).count %></p>
+  <p>Active: <%= Mechanical::Model::Post.jsonb_where(:mechanical_data, { title: '1111' }).count %></p>
 
 <% end %>
 

@@ -39,13 +39,13 @@ ActiveRecord::Schema.define(version: 2019_09_14_112425) do
   create_table "mechanical_mechanical_stores", force: :cascade do |t|
     t.integer "mechanicalable_id"
     t.string "mechanicalable_type"
-    t.integer "____user_id"
-    t.string "____model_type"
-    t.jsonb "____data", default: {}
+    t.integer "mechanical_user_id"
+    t.string "mechanical_model_type"
+    t.jsonb "mechanical_data", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["____model_type"], name: "index_mechanical_mechanical_stores_on_____model_type"
-    t.index ["____user_id"], name: "index_mechanical_mechanical_stores_on_____user_id"
+    t.index ["mechanical_model_type"], name: "index_mechanical_mechanical_stores_on_mechanical_model_type"
+    t.index ["mechanical_user_id"], name: "index_mechanical_mechanical_stores_on_mechanical_user_id"
     t.index ["mechanicalable_id", "mechanicalable_type"], name: "____mmidtype"
   end
 

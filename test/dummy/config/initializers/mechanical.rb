@@ -23,7 +23,7 @@ Mechanical.setup do |config|
 
     validates :title, presence: true
 
-    scope :active, -> { jsonb_where(:____data, active: true) }
+    scope :active, -> { jsonb_where(:mechanical_data, active: true) }
 
     after_create :say_hello
 
@@ -37,11 +37,7 @@ Mechanical.setup do |config|
       end
 
       def say_hello
-        puts "HELLO"
-        puts "HELLO"
-        puts "HELLO"
-        puts "HELLO"
-        puts "HELLO"
+        puts "HELLO FROM initializer #{self}"
       end
     end
   end
