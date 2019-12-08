@@ -1,0 +1,9 @@
+Description:
+    Generate configuration file.
+
+Example:
+    rails generate mechanical initializer
+
+    This will create:
+        - config/mechanical.rb
+        - new mechanical migration

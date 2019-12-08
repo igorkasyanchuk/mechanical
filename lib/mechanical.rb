@@ -60,7 +60,7 @@ module Mechanical
         #{name}
       }
 
-      puts "Initiated => #{@model}"
+      puts "Mechanical init model => #{@model}"
     end
     
     def field(name, options = {}, &block)
