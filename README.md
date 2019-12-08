@@ -1,12 +1,18 @@
 # Mechanical
 
-Simple gem which allows to store multiple tables in a single table in DB (Postgres only).
+Simple gem which allows to store multiple models in a single table in DB (Postgres only). It's using STI and Postgres JSONB data type.
 
-It's using STI and Postgres JSONB data type.
+The whole schema is defined in one initializer file, and new attributes could be easily added just by adding new attribute in that file. So you don't need to create a migration.
 
 ## Usage
 
-Create initializer `config/initializers/mechanical.rb` and define your schema below. 
+- add in Gemfile `gem "mechanical"`
+- bundle install
+- execute `rails g mechanical initializer`
+- execute `rake db:migrate`
+- edit `config/initializers/mechanical.rb` and define your schema
+- start app
+- you can use models `Mechanical::Model::MODEL_NAME` in you app like a regular model.
 
 You need to define attribute and it's type (it's importan to check this gem: https://github.com/madeintandem/jsonb_accessor).
 In addition you can specify relations, validations, add instance or class methods. Behavior is the same as with AR model.
