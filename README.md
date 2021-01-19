@@ -1,5 +1,7 @@
 # Mechanical
 
+[![RailsJazz](https://github.com/igorkasyanchuk/rails_time_travel/blob/main/docs/my_other.svg?raw=true)](https://www.railsjazz.com)
+
 Simple gem which allows to store multiple models in a single table in DB (Postgres only). It's using STI and Postgres JSONB data type.
 
 The whole schema is defined in one initializer file, and new attributes could be easily added just by adding new attribute in that file. So you don't need to create a migration.
