@@ -1,6 +1,7 @@
 # Mechanical
 
 [![RailsJazz](https://github.com/igorkasyanchuk/rails_time_travel/blob/main/docs/my_other.svg?raw=true)](https://www.railsjazz.com)
+[![https://www.patreon.com/igorkasyanchuk](https://github.com/igorkasyanchuk/rails_time_travel/blob/main/docs/patron.svg?raw=true)](https://www.patreon.com/igorkasyanchuk)
 
 Simple gem which allows to store multiple models in a single table in DB (Postgres only). It's using STI and Postgres JSONB data type.
 
